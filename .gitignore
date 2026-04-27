@@ -1,0 +1,33 @@
+# Secrets — never commit
+.env
+
+# Database (rebuilt automatically on first run)
+data/processed/
+data/raw/
+data/dictionaries/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Claude Code internal
+.claude/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
