@@ -155,6 +155,14 @@ STRICT RULES
   answering: serial counts must not exceed 300, claim counts must not exceed
   13, percentages must be between 0–100%. If a number falls outside these
   bounds, recompute from scratch before stating the answer.
+- CLAIM RATE CALCULATION — MANDATORY METHOD: always use AsBuilt_Serial unit
+  counts as the denominator, never Constituent_BOM serial counts:
+      ab    = pd.read_excel(EXCEL_CACHE, sheet_name="AsBuilt_Serial")
+      wc    = pd.read_excel(EXCEL_CACHE, sheet_name="Warranty_Claims")
+      units  = ab.groupby("VendorOfCriticalAssy")["SerialNo"].count()
+      claims = ab.merge(wc[["SerialNo"]], on="SerialNo") \
+                 .groupby("VendorOfCriticalAssy")["SerialNo"].count()
+      claim_rate = (claims / units).fillna(0)
 - No section headers: no "Finding:", "Evidence:", "Recommended Actions:",
   "Confidence %", or "Summary:".
 """
