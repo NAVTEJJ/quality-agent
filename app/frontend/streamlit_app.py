@@ -77,21 +77,6 @@ def _load_agent(_engine, _registry):
         return None
 
 
-@st.cache_resource(show_spinner="Pre-warming response cache...")
-def _prewarm(_engine, _registry, _agent):
-    """Run once per Streamlit process — populate the cache so the first
-    judge click on a suggested question returns in well under 100 ms."""
-    from app.core.cache import pre_warm_cache
-    try:
-        return pre_warm_cache(
-            agent=_agent,
-            registry=_registry,
-            engine=_engine,
-        )
-    except Exception as exc:  # noqa: BLE001
-        return {"warmed": 0, "errors": [str(exc)]}
-
-
 def _ensure_loaded():
     if st.session_state.db_engine is None:
         engine, registry = _load_registry()
@@ -105,12 +90,6 @@ def _ensure_loaded():
     if st.session_state.session_id is None:
         import uuid
         st.session_state.session_id = str(uuid.uuid4())
-    # Pre-warm response cache (no-ops on subsequent reruns thanks to cache_resource).
-    _prewarm(
-        st.session_state.db_engine,
-        st.session_state.registry,
-        st.session_state.agent,
-    )
 
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
