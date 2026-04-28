@@ -249,12 +249,10 @@ class ExcelQualityAgent:
                 "cache_control": {"type": "ephemeral"},
             }
         ]
-        self._keepalive_active = True
-        self._keepalive_thread = threading.Thread(
-            target=self._keepalive_loop, daemon=True
-        )
-        self._keepalive_thread.start()
-        logger.info("Cache keepalive thread started (ping every 4 min)")
+        # Keepalive disabled — burns ~900k tokens/day on hosted deployments
+        # where the app idles 24/7. Cache misses add ~1s latency, which is
+        # acceptable compared to continuous background spend.
+        self._keepalive_active = False
 
     # -- Public ----------------------------------------------------------------
 
