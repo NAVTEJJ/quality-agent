@@ -31,7 +31,7 @@ from configs import settings
 logger = logging.getLogger(__name__)
 
 EXCEL_PATH: Path = settings.EXCEL_PATH
-MAX_TOOL_ROUNDS = 6
+MAX_TOOL_ROUNDS = 3
 EXEC_TIMEOUT_S = 30
 
 try:
